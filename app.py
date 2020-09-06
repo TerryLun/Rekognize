@@ -41,10 +41,38 @@ def get_bucket():
     return s3_resource.Bucket(S3_BUCKET)
 
 
+def validate_extension(filename: str) -> bool:
+    """
+    Validate file extension
+
+    :param filename: file name as string
+    :return: True if extension is allowed
+    """
+    allowed_extensions = {'png', 'jpg', 'jpeg'}
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in allowed_extensions
+
+
+def get_image_labels(key: str, bucket: str) -> list:
+    """
+    Get image labels from rekognition
+
+    :return: image labels as a list
+    """
+    # initialize rekognition client
+    client = boto3.client('rekognition')
+
+    # get labels and store in array
+    response = client.detect_labels(Image={'S3Object': {'Bucket': bucket, 'Name': key}}, MaxLabels=10)
+    labels = [item['Name'] for item in response['Labels']]
+    labels.sort()
+
+    return labels
+
+
 @app.route('/')
 def index():
     """
-    Files route
+    Render index page
 
     docs: https://boto3.amazonaws.com/v1/documentation/api/latest/guide/collections.html
     """
@@ -64,29 +92,6 @@ def index():
 
     # render files.html
     return render_template('index.html', my_bucket=my_bucket, files=summaries, labels=labels)
-
-
-def validate_extension(filename: str) -> bool:
-    """
-    Validate file extension
-
-    :param filename: file name as string
-    :return: True if extension is allowed
-    """
-    allowed_extensions = {'png', 'jpg', 'jpeg'}
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() in allowed_extensions
-
-
-def get_image_labels(key, bucket):
-    # initialize rekognition client
-    client = boto3.client('rekognition')
-
-    # get labels and store in array
-    response = client.detect_labels(Image={'S3Object': {'Bucket': bucket, 'Name': key}}, MaxLabels=10)
-    labels = [item['Name'] for item in response['Labels']]
-    labels.sort()
-
-    return labels
 
 
 @app.route('/upload', methods=['post'])
@@ -152,4 +157,4 @@ def download():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
