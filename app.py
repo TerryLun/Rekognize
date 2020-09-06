@@ -51,14 +51,19 @@ def index():
     # get bucket summary from bucket
     my_bucket = get_bucket()
     summaries = my_bucket.objects.all()
-    tags = {}
-    counter = 0
+
+    # get labels for each image
+    labels = {}
     for f in summaries:
-        tags[f.key] = str(counter)
-        counter += 1
-    print(tags)
+        labels[f.key] = get_image_labels(f.key, my_bucket.name)
+
+    # get length of summaries
+    summaries_count = 0
+    for s in summaries:
+        summaries_count += 1
+
     # render files.html
-    return render_template('index.html', my_bucket=my_bucket, files=summaries, tags=tags)
+    return render_template('index.html', my_bucket=my_bucket, files=summaries, labels=labels)
 
 
 def validate_extension(filename: str) -> bool:
@@ -70,6 +75,18 @@ def validate_extension(filename: str) -> bool:
     """
     allowed_extensions = {'png', 'jpg', 'jpeg'}
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in allowed_extensions
+
+
+def get_image_labels(key, bucket):
+    # initialize rekognition client
+    client = boto3.client('rekognition')
+
+    # get labels and store in array
+    response = client.detect_labels(Image={'S3Object': {'Bucket': bucket, 'Name': key}}, MaxLabels=10)
+    labels = [item['Name'] for item in response['Labels']]
+    labels.sort()
+
+    return labels
 
 
 @app.route('/upload', methods=['post'])

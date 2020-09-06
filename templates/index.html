@@ -42,16 +42,20 @@
                 <tr>
                     <th>Filename</th>
                     <th>Last Modified</th>
+                    <th>Labels</th>
                     <th>Type</th>
-                    <th>Tags</th>
                     <th></th>
                 </tr>
                 {% for f in files %}
                 <tr>
                     <td>{{ f.key }}</td>
                     <td>{{ f.last_modified | datetimeformat }}</td>
+                    <td>
+                        {% for label in labels[f.key] %}
+                        {{ label }},
+                        {% endfor %}
+                    </td>
                     <td>{{ f.key | file_type }}</td>
-                    <td>{{ tags[f.key] }}</td>
                     <td class="td-buttons">
                         <form class="delete-form" action="{{ url_for('delete') }}" method="POST">
                             <input type="hidden" name="key" value="{{ f.key }}">
