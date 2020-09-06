@@ -50,12 +50,20 @@ def index():
 def files():
     """
     Files route
+
+    docs: https://boto3.amazonaws.com/v1/documentation/api/latest/guide/collections.html
     """
     # get bucket summary from bucket
     my_bucket = get_bucket()
     summaries = my_bucket.objects.all()
+    tags = {}
+    counter = 0
+    for f in summaries:
+        tags[f.key] = str(counter)
+        counter += 1
+    print(tags)
     # render files.html
-    return render_template('files.html', my_bucket=my_bucket, files=summaries)
+    return render_template('files.html', my_bucket=my_bucket, files=summaries, tags=tags)
 
 
 def validate_extension(filename: str) -> bool:
