@@ -43,11 +43,6 @@ def get_bucket():
 
 @app.route('/')
 def index():
-    return render_template('index.html')
-
-
-@app.route('/files')
-def files():
     """
     Files route
 
@@ -63,7 +58,7 @@ def files():
         counter += 1
     print(tags)
     # render files.html
-    return render_template('files.html', my_bucket=my_bucket, files=summaries, tags=tags)
+    return render_template('index.html', my_bucket=my_bucket, files=summaries, tags=tags)
 
 
 def validate_extension(filename: str) -> bool:
@@ -98,7 +93,7 @@ def upload():
         else:
             flash('Only .jpg, .jpeg and .png are allowed')
     finally:
-        return redirect(url_for('files'))
+        return redirect(url_for('index'))
 
 
 @app.route('/delete', methods=['post'])
@@ -116,7 +111,7 @@ def delete():
     # flash message
     flash('File deleted successfully')
 
-    return redirect(url_for('files'))
+    return redirect(url_for('index'))
 
 
 @app.route('/download', methods=['post'])
