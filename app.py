@@ -82,13 +82,8 @@ def index():
 
     # get labels for each image
     labels = {}
-    for f in summaries:
-        labels[f.key] = get_image_labels(f.key, my_bucket.name)
-
-    # get length of summaries
-    summaries_count = 0
-    for s in summaries:
-        summaries_count += 1
+    # for f in summaries:
+    #     labels[f.key] = get_image_labels(f.key, my_bucket.name)
 
     # render files.html
     return render_template('index.html', my_bucket=my_bucket, files=summaries, labels=labels)
