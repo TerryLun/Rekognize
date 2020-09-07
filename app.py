@@ -54,23 +54,6 @@ def validate_extension(filename: str) -> bool:
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in allowed_extensions
 
 
-def get_image_labels(key: str, bucket: str) -> list:
-    """
-    Get image labels from rekognition
-
-    :return: image labels as a list
-    """
-    # initialize rekognition client
-    client = boto3.client('rekognition')
-
-    # get labels and store in array
-    response = client.detect_labels(Image={'S3Object': {'Bucket': bucket, 'Name': key}}, MaxLabels=10)
-    labels = [item['Name'] for item in response['Labels']]
-    labels.sort()
-
-    return labels
-
-
 @app.route('/')
 def index():
     """
