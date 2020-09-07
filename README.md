@@ -33,6 +33,7 @@ Then:
 
 ## To do
 <ul>
-<li>Cache functionality for calculated image labels to store in DynamoDB to improve performance.</li>
 <li>Search filter for images</li>
+<li>Cache functionality for calculated image labels to store in DynamoDB to improve performance.</li>
+<li>Go completely serverless</li>
 </ul>
