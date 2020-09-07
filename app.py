@@ -2,6 +2,8 @@ from flask import Flask, render_template, request, redirect, url_for, flash, Res
 from flask_bootstrap import Bootstrap
 import boto3
 from filters import datetimeformat, file_type
+import json
+import requests
 
 # credentials
 S3_BUCKET = 'upload-with-flask'
@@ -73,17 +75,14 @@ def get_image_labels(key: str, bucket: str) -> list:
 def index():
     """
     Render index page
-
-    docs: https://boto3.amazonaws.com/v1/documentation/api/latest/guide/collections.html
     """
     # get bucket summary from bucket
     my_bucket = get_bucket()
     summaries = my_bucket.objects.all()
 
-    # get labels for each image
-    labels = {}
-    for f in summaries:
-        labels[f.key] = get_image_labels(f.key, my_bucket.name)
+    # get image labels from lambda function
+    res = requests.get("https://0f3kzkdn93.execute-api.us-east-2.amazonaws.com/prod")
+    labels = res.json()['body']
 
     # render files.html
     return render_template('index.html', my_bucket=my_bucket, files=summaries, labels=labels)
