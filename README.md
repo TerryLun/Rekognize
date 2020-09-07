@@ -32,5 +32,7 @@ Then:
 </ul>
 
 ## To do
-Implement cache functionality for calculated image labels to store in DynamoDB to improve performance.
-
+<ul>
+<li>Cache functionality for calculated image labels to store in DynamoDB to improve performance.</li>
+<li>Search filter for images</li>
+</ul>
