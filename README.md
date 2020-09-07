@@ -13,13 +13,37 @@ Image labels:
 ![imagelabels](screenshoot.png "screenshot")
 
 ## Installation Instructions
+#### For Windows:
+
 In terminal:
 
-`$ pip install flask flask_bootstrap boto3 arrow dominate mimetypes requests`  
+`$ cd Rekognize`
 
-Then:
+`$ virtualenv venv`  
 
-`$ py app.py`
+`$ venv\scripts\activate`
+
+`$ pip install -r requirements.txt`
+
+`$ py app.py`  
+
+Go to http://127.0.0.1:5000/
+
+#### For Mac OS:
+
+In terminal:
+
+`$ cd Rekognize`
+
+`$ virtualenv venv`  
+
+`$ source venv/bin/activate`
+
+`$ pip install -r requirements.txt`
+
+`$ python app.py`  
+
+Go to http://127.0.0.1:5000/
 
 ## Tech used
 <ul>
