@@ -1,57 +1,20 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, Response
 from flask_bootstrap import Bootstrap
-import boto3
-from filters import datetimeformat, file_type
-import json
 import requests
 
-# credentials
-S3_BUCKET = 'upload-with-flask'
-S3_KEY = 'AKIA3LV4Y2GSU2CHQCGL'
-S3_SECRET = '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'
+from resources import get_bucket
+from validators import validate_extension
+from filters import datetimeformat, file_type
 
 app = Flask(__name__)
 app.secret_key = 'secret'
 
-# load bootstrap extention
+# load bootstrap extension
 Bootstrap(app)
 
 # load filters for data
 app.jinja_env.filters['datetimeformat'] = datetimeformat
 app.jinja_env.filters['file_type'] = file_type
-
-
-def get_s3_resource():
-    """
-    Return s3 service resource
-
-    :return: s3 service resource
-    """
-    if S3_KEY and S3_SECRET:
-        return boto3.resource("s3", aws_access_key_id=S3_KEY, aws_secret_access_key=S3_SECRET)
-    else:
-        return boto3.resource('s3')
-
-
-def get_bucket():
-    """
-    Return the s3 bucket
-
-    :return: s3 bucket
-    """
-    s3_resource = get_s3_resource()
-    return s3_resource.Bucket(S3_BUCKET)
-
-
-def validate_extension(filename: str) -> bool:
-    """
-    Validate file extension
-
-    :param filename: file name as string
-    :return: True if extension is allowed
-    """
-    allowed_extensions = {'png', 'jpg', 'jpeg'}
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() in allowed_extensions
 
 
 @app.route('/')
@@ -134,4 +97,4 @@ def download():
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
