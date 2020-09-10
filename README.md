@@ -1,4 +1,5 @@
 # Rekognize
+
 <ul>
 <li>Image repository featuring object analysis and identification.</li>
 <li>Upload, download or delete image files.</li>
@@ -6,6 +7,7 @@
 </ul>
 
 ## Screenshots
+
 Uploaded image:
 ![elephantimage](manipulatedelephant-800x534.jpg "inp_image")
 
@@ -13,19 +15,22 @@ Image labels:
 ![imagelabels](screenshoot.png "screenshot")
 
 ## Installation Instructions
+
+Please contact me for access key and secret access key and fill them in resources.py.
+
 #### For Windows:
 
 In terminal:
 
 `$ cd Rekognize`
 
-`$ virtualenv venv`  
+`$ virtualenv venv`
 
 `$ venv\scripts\activate`
 
 `$ pip install -r requirements.txt`
 
-`$ py app.py`  
+`$ py app.py`
 
 Go to http://127.0.0.1:5000/
 
@@ -35,17 +40,18 @@ In terminal:
 
 `$ cd Rekognize`
 
-`$ virtualenv venv`  
+`$ virtualenv venv`
 
 `$ source venv/bin/activate`
 
 `$ pip install -r requirements.txt`
 
-`$ python app.py`  
+`$ python app.py`
 
 Go to http://127.0.0.1:5000/
 
 ## Tech used
+
 <ul>
 <li>Python</li>
 <li>Flask</li>
@@ -56,6 +62,7 @@ Go to http://127.0.0.1:5000/
 </ul>
 
 ## To do
+
 <ul>
 <li>Search filter for images</li>
 <li>Cache functionality for calculated image labels to store in DynamoDB to improve performance.</li>
