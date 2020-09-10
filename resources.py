@@ -2,8 +2,8 @@ import boto3
 
 # credentials
 S3_BUCKET = 'upload-with-flask'
-S3_KEY = 'AKIA3LV4Y2GSU2CHQCGL'
-S3_SECRET = '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'
+S3_KEY = ''
+S3_SECRET = ''
 
 
 def get_s3_resource():
